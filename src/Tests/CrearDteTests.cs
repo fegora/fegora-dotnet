@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Fegora.Servicios.Model;
 using Fegora.Servicios.Model.DteTypes;
-using Fegora.Servicios.Model.DteTypes.ReceptorTypes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Fegora.Servicios.Tests
@@ -19,7 +18,7 @@ namespace Fegora.Servicios.Tests
             {
                 Id = "CF",
                 Nombre = "Distribuidora XYZ",
-                Direccion = new DireccionReceptor()
+                Direccion = new DireccionEntidad()
                 {
                     Direccion = "2a CALLE 3-51 ZONA 9 GUATEMALA",
                     Departamento = "Guatemala",
@@ -58,7 +57,7 @@ namespace Fegora.Servicios.Tests
             {
                 Id = "CF",
                 Nombre = "Distribuidora XYZ",
-                Direccion = new DireccionReceptor()
+                Direccion = new DireccionEntidad()
                 {
                     Direccion = "2a CALLE 3-51 ZONA 9 GUATEMALA",
                     Departamento = "Guatemala",
@@ -97,7 +96,7 @@ namespace Fegora.Servicios.Tests
             {
                 Id = "CF",
                 Nombre = "Distribuidora XYZ",
-                Direccion = new DireccionReceptor()
+                Direccion = new DireccionEntidad()
                 {
                     Direccion = "2a CALLE 3-51 ZONA 9 GUATEMALA",
                     Departamento = "Guatemala",
@@ -128,7 +127,7 @@ namespace Fegora.Servicios.Tests
             {
                 Id = "CF",
                 Nombre = "Distribuidora XYZ",
-                Direccion = new DireccionReceptor()
+                Direccion = new DireccionEntidad()
                 {
                     Direccion = "2a CALLE 3-51 ZONA 9 GUATEMALA",
                     Departamento = "Guatemala",
@@ -170,7 +169,7 @@ namespace Fegora.Servicios.Tests
             {
                 Id = "CF",
                 Nombre = "Distribuidora XYZ",
-                Direccion = new DireccionReceptor()
+                Direccion = new DireccionEntidad()
                 {
                     Direccion = "2a CALLE 3-51 ZONA 9 GUATEMALA",
                     Departamento = "Guatemala",
@@ -217,7 +216,7 @@ namespace Fegora.Servicios.Tests
             {
                 Id = "CF",
                 Nombre = "Distribuidora XYZ",
-                Direccion = new DireccionReceptor()
+                Direccion = new DireccionEntidad()
                 {
                     Direccion = "2a CALLE 3-51 ZONA 9 GUATEMALA",
                     Departamento = "Guatemala",

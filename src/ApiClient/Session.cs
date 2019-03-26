@@ -163,8 +163,9 @@ namespace Fegora.Servicios
                 var errorToken =  JsonConvert.DeserializeObject<ErrorToken>(resultAsString);
                 respuestaADevolver.Error = new Error
                 {
-                    MasInformacion = string.Format("{0}: {1}", errorToken.error, errorToken.error_description)
+                    Mensaje = string.Format("{0}: {1}", errorToken.error, errorToken.error_description)
                 };
+                respuestaADevolver.TieneError = true;
                 Token = null;
             }
 
