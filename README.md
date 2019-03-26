@@ -1,6 +1,8 @@
 # Fegora API Client
 Es un conector o librería para clientes .NET4.5+ del API de Fegora. Permite crear facturas, notas de crédito, notas de débito, etc., utilizando las credenciales de servicio de Fegora. 
 
+Esta librería ayuda a generar el JSON y a utilizar los endpoints del API de Fegora. Para más información de esta estructura y del protocolo rest que utiliza, puede consultar la [Documentación de API Rest de Fegora](https://developer.fegora.com/)
+
 ## Pre-requisitos
 * Cuenta de emisor en Fegora. Al tener una cuenta de emisor, tiene credenciales de acceso (`clientId`, `clientSecret`, `username`, `password`).
 * .NETFramework 4.5 o superior
