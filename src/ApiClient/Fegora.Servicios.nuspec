@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <licenseUrl>https://github.com/fegora/fegora-dotnet/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/fegora/fegora-dotnet</projectUrl>
+    <iconUrl>https://en.gravatar.com/userimage/154990875/2c581bed5b1007eeb3f6061eb186a8e4.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$description$</description>
+    <releaseNotes>Primera vesión</releaseNotes>
+    <copyright>Copyright 2019</copyright>
+    <tags>Fegora Factura Electrónica Guatemala</tags>
+    <dependencies>
+      <dependency id="Newtonsoft.Json" version="12.0.1" />
+    </dependencies>
+  </metadata>
+</package>

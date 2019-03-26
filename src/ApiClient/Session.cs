@@ -81,7 +81,7 @@ namespace Fegora.Servicios
                 ContractResolver = new CamelCasePropertyNamesContractResolver(),
                 Formatting = Newtonsoft.Json.Formatting.Indented,
                 NullValueHandling = NullValueHandling.Ignore,
-                Converters = new List<JsonConverter> { new StringEnumConverter { NamingStrategy = new CamelCaseNamingStrategy(true, false), CamelCaseText = true } }
+                Converters = new List<JsonConverter> { new StringEnumConverter { CamelCaseText = true } }
             };
 
             // aceptar diferentes procolos de seguridad
