@@ -9,6 +9,14 @@ namespace Fegora.Servicios.Tests
     [TestClass]
     public class CrearDteTests
     {
+        private Api fegora;
+
+        [TestInitialize]
+        public void ConfiguracionTests()
+        {
+            fegora = new Api();
+        }
+
         [TestMethod]
         public void CrearDteSimple()
         {
@@ -32,14 +40,17 @@ namespace Fegora.Servicios.Tests
             dte.Items.Add(new Item()
             {
                 Descripcion = "Bocina BX-456",
-                PrecioUnitario = 450
+                PrecioUnitario = 1500
             });
 
             // ejecutar la creacion
-            var fegora = new Api();
             var resp = fegora.Dtes.Crear(dte);
 
             // tests
+            if (resp.TieneError)
+            {
+                ImprimirError(resp.Error);
+            }            
             Assert.IsFalse(resp.TieneError);
             Assert.IsNotNull(resp.Contenido);
             Assert.IsNotNull(resp.Contenido.Id);
@@ -76,50 +87,26 @@ namespace Fegora.Servicios.Tests
             });
 
             // ejecutar la creacion
-            var fegora = new Api();
             var resp = fegora.Dtes.Crear(dte);
 
+            // tests
+            if (resp.TieneError)
+            {
+                ImprimirError(resp.Error);
+            }            
             Assert.IsFalse(resp.TieneError);
             Assert.IsNotNull(resp.Contenido);
             Assert.IsNotNull(resp.Contenido.Id);
 
             // mostrar valores relevantes de impresion
-            ImprimirInformacionRelevanteDocumento(resp.Contenido);
+            ImprimirInformacionRelevanteDocumento(resp.Contenido);            
         }
 
         [TestMethod]
         public void CrearNotaCredito()
         {
             // construir el DTE original
-            var dteOriginal = new Dte();
-            dteOriginal.Receptor = new Receptor()
-            {
-                Id = "CF",
-                Nombre = "Distribuidora XYZ",
-                Direccion = new DireccionEntidad()
-                {
-                    Direccion = "2a CALLE 3-51 ZONA 9 GUATEMALA",
-                    Departamento = "Guatemala",
-                    Municipio = "Guatemala",
-                    Pais = Pais.GT,
-                    CodigoPostal = "01009"
-                }
-            };
-
-            dteOriginal.Items = new List<Item>();
-            dteOriginal.Items.Add(new Item()
-            {
-                Descripcion = "Reaparacion y mantenimiento general de vehículo",
-                PrecioUnitario = 1500,
-                Tipo = TipoItem.Servicio
-            });
-
-            // ejecutar la creacion
-            var fegora = new Api();
-            var resp = fegora.Dtes.Crear(dteOriginal);
-            Assert.IsFalse(resp.TieneError);
-            Assert.IsNotNull(resp.Contenido);
-            Assert.IsNotNull(resp.Contenido.Id);
+            var dteOriginal = fegora.Dtes.Crear(ConstruirDteSencillo()).Contenido;
 
             // construir la nota de credito
             var dteNC = new Dte();
@@ -147,70 +134,75 @@ namespace Fegora.Servicios.Tests
 
             // datos indispensables para una Nota de credito: el tipo, el documentoOriginal y el motivo del ajuste
             dteNC.Tipo = TipoDte.NotaCredito;
-            dteNC.IdDteOriginal = resp.Contenido.Id;
+            dteNC.IdDteOriginal = dteOriginal.Id;
             dteNC.MotivoAjuste = "Ajuste de precio por reclamo de servicio";
 
-            var respNC = fegora.Dtes.Crear(dteNC);
+            // ejecutar la creacion de la nota de credito
+            var resp = fegora.Dtes.Crear(dteNC);
 
-            Assert.IsFalse(respNC.TieneError);
-            Assert.IsNotNull(respNC.Contenido);
-            Assert.IsNotNull(respNC.Contenido.Id);
+            // tests
+            if (resp.TieneError)
+            {
+                ImprimirError(resp.Error);
+            }            
+            Assert.IsFalse(resp.TieneError);
+            Assert.IsNotNull(resp.Contenido);
+            Assert.IsNotNull(resp.Contenido.Id);
 
             // mostrar valores relevantes de impresion
-            ImprimirInformacionRelevanteDocumento(respNC.Contenido);
+            ImprimirInformacionRelevanteDocumento(resp.Contenido);
         }
 
         [TestMethod]
         public void ObtenerDTE()
         {
             // crear un DTE
-            var dte = new Dte();
-            dte.Receptor = new Receptor()
-            {
-                Id = "CF",
-                Nombre = "Distribuidora XYZ",
-                Direccion = new DireccionEntidad()
-                {
-                    Direccion = "2a CALLE 3-51 ZONA 9 GUATEMALA",
-                    Departamento = "Guatemala",
-                    Municipio = "Guatemala",
-                    Pais = Pais.GT,
-                    CodigoPostal = "01009"
-                }
-            };
-
-            dte.Items = new List<Item>();
-            dte.Items.Add(new Item()
-            {
-                Descripcion = "Audifonos con cancelación de sonido BX-456",
-                PrecioUnitario = 450
-            });
-
-            // ejecutar la creacion
-            var fegora = new Api();
-            var resp = fegora.Dtes.Crear(dte);
+            var dte = fegora.Dtes.Crear(ConstruirDteSencillo()).Contenido;
 
             // obtener el dte con el metodo especifico para obtencion
-            var id = resp.Contenido.Id;
+            var id = dte.Id;
 
             // ejecutar la creacion            
-            var respObtener = fegora.Dtes.Obtener(id);
+            var resp = fegora.Dtes.Obtener(id);
 
-            Assert.IsFalse(respObtener.TieneError);
-            Assert.IsNotNull(respObtener.Contenido);
-            Assert.IsNotNull(respObtener.Contenido.Id);
+            // tests
+            if (resp.TieneError)
+            {
+                ImprimirError(resp.Error);
+            }            
+            Assert.IsFalse(resp.TieneError);
+            Assert.IsNotNull(resp.Contenido);
+            Assert.IsNotNull(resp.Contenido.Id);
             
             // mostrar valores relevantes de impresion
-            ImprimirInformacionRelevanteDocumento(resp.Contenido);
+            ImprimirInformacionRelevanteDocumento(resp.Contenido);            
         }
 
         [TestMethod]
         public void AnularDTE()
         {
-            var fegora = new Api();
-            var motivoAnulacion = "Montos y NIT errórenos.";
+            // crear dte sencillo para ser anulado más adelante
+            var dte = fegora.Dtes.Crear(ConstruirDteSencillo()).Contenido;
+            
+            // ejecutar la anulacion
+            var resp = fegora.Dtes.Anular(dte.Id, "Montos y NIT errórenos");
 
-            #region crear un DTE nuevo para la prueba de anulacion
+            // tests
+            if (resp.TieneError)
+            {
+                ImprimirError(resp.Error);
+            }
+            Assert.IsFalse(resp.TieneError);
+            Assert.IsNotNull(resp.Contenido);
+            Assert.IsNotNull(resp.Contenido.Id);
+            Assert.IsNotNull(resp.Contenido.DatosAnulacion);
+
+            // mostrar valores relevantes de impresion
+            ImprimirInformacionRelevanteDocumento(resp.Contenido);
+        }
+
+        private Dte ConstruirDteSencillo()
+        {
             var dte = new Dte();
             dte.Receptor = new Receptor()
             {
@@ -229,27 +221,11 @@ namespace Fegora.Servicios.Tests
             dte.Items = new List<Item>();
             dte.Items.Add(new Item()
             {
-                Descripcion = "Audifonos con cancelación de sonido BX-456",
-                PrecioUnitario = 450
+                Descripcion = "Bocina BX-456",
+                PrecioUnitario = 1500
             });
 
-            // ejecutar la creacion            
-            var resp = fegora.Dtes.Crear(dte);
-            #endregion
-
-            // id del documento creado, que se usará para la prueba de anulación
-            var id = resp.Contenido.Id;
-
-            // ejecutar la anulacion
-            var respAnulacion = fegora.Dtes.Anular(id, motivoAnulacion);
-
-            Assert.IsFalse(respAnulacion.TieneError);
-            Assert.IsNotNull(respAnulacion.Contenido);
-            Assert.IsNotNull(respAnulacion.Contenido.Id);
-            Assert.IsNotNull(respAnulacion.Contenido.DatosAnulacion);
-
-            // mostrar valores relevantes de impresion
-            ImprimirInformacionRelevanteDocumento(respAnulacion.Contenido);
+            return dte;
         }
 
         private void ImprimirInformacionRelevanteDocumento(Dte dte)
@@ -282,5 +258,15 @@ namespace Fegora.Servicios.Tests
 
             }
         }
+
+        private void ImprimirError(Error error)
+        {
+            Console.WriteLine("ERROR!");
+            Console.WriteLine("-----------------");
+            Console.WriteLine("Codigo: {0}", error.Codigo);
+            Console.WriteLine("Mensaje: {0}", error.Mensaje);                        
+        }
+
+
     }
 }

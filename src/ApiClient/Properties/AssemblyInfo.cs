@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("FegoraApiClient")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Fegora Api Client")]
+[assembly: AssemblyDescription("Conector o librería para utilizar Fegora API desde .net")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("FegoraApiClient")]
+[assembly: AssemblyCompany("Fegora")]
+[assembly: AssemblyProduct("")]
 [assembly: AssemblyCopyright("Copyright ©  2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
