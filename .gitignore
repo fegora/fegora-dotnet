@@ -9,3 +9,4 @@ Fegora[0-9]*.llblgenproj
 code/.nuget/NuGet.Config
 code/.nuget/NuGet.exe
 code/.nuget/NuGet.targets
+*.nupkg
