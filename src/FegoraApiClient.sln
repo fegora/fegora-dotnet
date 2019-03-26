@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.421
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fegora.Servicios", "ApiClient\Fegora.Servicios.csproj", "{C310EE2D-B528-4FD1-91AF-93321AD912D5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fegora.Servicios.Tests", "Tests\Fegora.Servicios.Tests.csproj", "{E0977283-91B8-4204-BDF4-F37D8211441C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C310EE2D-B528-4FD1-91AF-93321AD912D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C310EE2D-B528-4FD1-91AF-93321AD912D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C310EE2D-B528-4FD1-91AF-93321AD912D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C310EE2D-B528-4FD1-91AF-93321AD912D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E0977283-91B8-4204-BDF4-F37D8211441C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0977283-91B8-4204-BDF4-F37D8211441C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0977283-91B8-4204-BDF4-F37D8211441C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0977283-91B8-4204-BDF4-F37D8211441C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C315A2AD-84A9-4B69-8308-C5C48FB4BF57}
+	EndGlobalSection
+EndGlobal
