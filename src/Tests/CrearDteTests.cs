@@ -15,6 +15,9 @@ namespace Fegora.Servicios.Tests
         public void ConfiguracionTests()
         {
             fegora = new Api();
+
+            // si desea puede incluir los valores en el constructor
+            //fegora = new Api(clientId, clientSecret, userName, password);
         }
 
         [TestMethod]
@@ -35,7 +38,7 @@ namespace Fegora.Servicios.Tests
                     CodigoPostal = "01009"
                 }
             };
-
+            
             dte.Items = new List<Item>();
             dte.Items.Add(new Item()
             {
@@ -240,7 +243,7 @@ namespace Fegora.Servicios.Tests
             Console.WriteLine();
             Console.WriteLine("Datos adicionales");
             Console.WriteLine("------------------");
-            foreach (var datoAdicional in dte.DatoAdicionales)
+            foreach (var datoAdicional in dte.DatosAdicionales)
             {
                 Console.WriteLine("{0} ({1}) : {2}", datoAdicional.Nombre, datoAdicional.Visible.Value ? "visible" : "no visible", datoAdicional.Valor);
             }

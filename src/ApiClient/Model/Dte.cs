@@ -17,7 +17,7 @@ namespace Fegora.Servicios.Model
         
         public DteTypes.Certificador Certificador { get; set; }
         
-        public List<DteTypes.DatoAdicional> DatoAdicionales { get; set; }
+        public List<DteTypes.DatoAdicional> DatosAdicionales { get; set; }
         
         public DteTypes.DatosAnulacion DatosAnulacion { get; set; }
         
@@ -215,7 +215,7 @@ namespace Fegora.Servicios.Model
         {            
             public Nullable<System.Decimal> Cantidad { get; set; }
             
-            public List<DatoAdicional> DatoAdicionales { get; set; }
+            public List<DatoAdicional> DatosAdicionales { get; set; }
             
             public System.String Descripcion { get; set; }
             
