@@ -43,7 +43,7 @@ namespace Fegora.Servicios.Tests
             dte.Items.Add(new Item()
             {
                 Descripcion = "Bocina BX-456",
-                PrecioUnitario = 1500
+                PrecioUnitario = 1
             });
 
             // ejecutar la creacion
@@ -60,6 +60,91 @@ namespace Fegora.Servicios.Tests
 
             // mostrar valores relevantes de impresion
             ImprimirInformacionRelevanteDocumento(resp.Contenido);            
+        }
+
+        [TestMethod]
+        public void CredencialesInvalidas()
+        {
+            // construir el DTE
+            var dte = new Dte();
+            dte.Receptor = new Receptor()
+            {
+                Id = "CF",
+                Nombre = "Distribuidora XYZ",
+                Direccion = new DireccionEntidad()
+                {
+                    Direccion = "2a CALLE 3-51 ZONA 9 GUATEMALA",
+                    Departamento = "Guatemala",
+                    Municipio = "Guatemala",
+                    Pais = Pais.GT,
+                    CodigoPostal = "01009"
+                }
+            };
+
+            dte.Items = new List<Item>();
+            dte.Items.Add(new Item()
+            {
+                Descripcion = "Bocina BX-456",
+                PrecioUnitario = 1
+            });
+
+            // ejecutar la creacion
+            fegora = new Api("apiApp", "", "43430775", "BadPass");
+            var resp = fegora.Dtes.Crear(dte);
+
+            // tests
+            if (resp.TieneError)
+            {
+                ImprimirError(resp.Error);
+            }
+            Assert.IsFalse(resp.TieneError);
+            Assert.IsNotNull(resp.Contenido);
+            Assert.IsNotNull(resp.Contenido.Id);
+
+            // mostrar valores relevantes de impresion
+            ImprimirInformacionRelevanteDocumento(resp.Contenido);
+        }
+
+        [TestMethod]
+        public void InformacionDteInvalida()
+        {
+            // construir el DTE
+            var dte = new Dte();
+            dte.Receptor = new Receptor()
+            {
+                Id = "111111",
+                Nombre = "Distribuidora XYZ",
+                Direccion = new DireccionEntidad()
+                {
+                    Direccion = "2a CALLE 3-51 ZONA 9 GUATEMALA",
+                    Departamento = "Guatemala",
+                    Municipio = "Guatemala",
+                    Pais = Pais.GT,
+                    CodigoPostal = "01009"
+                }
+            };
+
+            dte.Items = new List<Item>();
+            dte.Items.Add(new Item()
+            {
+                Descripcion = "Bocina BX-456",
+                PrecioUnitario = 1
+            });
+
+            // ejecutar la creacion
+            var resp = fegora.Dtes.Crear(dte);
+
+            // tests
+            if (resp.TieneError)
+            {
+                ImprimirError(resp.Error);
+            }
+            Assert.IsFalse(resp.TieneError);
+            Assert.IsNotNull(resp.Contenido);
+            Assert.IsNotNull(resp.Contenido.Id);
+
+            // mostrar valores relevantes de impresion
+            ImprimirInformacionRelevanteDocumento(resp.Contenido);
         }
 
         [TestMethod]
