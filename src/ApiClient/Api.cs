@@ -10,10 +10,13 @@
         {
             Session = new Session(clientId, clientSecret, userName, password);
             Dtes = new DteEndpoint(Session);
+            Contribuyentes = new ContribuyenteEndpoint(Session);
         }
 
         public Session Session {get; set;}
         
         public DteEndpoint Dtes { get; set; }
+
+        public ContribuyenteEndpoint Contribuyentes { get; set; }
     }
 }
