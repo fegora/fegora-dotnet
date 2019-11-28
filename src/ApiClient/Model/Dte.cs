@@ -180,6 +180,8 @@ namespace Fegora.Servicios.Model
             public TipoDte Tipo { get; set; }
             
             public System.Decimal Total { get; set; }
+
+            public System.Boolean EsRegimenAntiguo { get; set; }
         }
 
         [Serializable]        

@@ -242,6 +242,63 @@ namespace Fegora.Servicios.Tests
         }
 
         [TestMethod]
+        public void CrearNotaCreditoFace()
+        {            
+            // construir la nota de credito
+            var dteNC = new Dte();
+            dteNC.Receptor = new Receptor()
+            {
+                Id = "CF",
+                Nombre = "Consumidor Final",
+                Direccion = new DireccionEntidad()
+                {
+                    Direccion = "2a CALLE 3-51 ZONA 9 GUATEMALA",
+                    Departamento = "Guatemala",
+                    Municipio = "Guatemala",
+                    Pais = Pais.GT,
+                    CodigoPostal = "01009"
+                }
+            };
+
+            dteNC.Items = new List<Item>();
+            dteNC.Items.Add(new Item()
+            {
+                Descripcion = "Negociacion de Descuento",
+                PrecioUnitario = 5,
+                Tipo = TipoItem.Servicio
+            });
+
+            // datos generales de la nota de credito. No se debe incluir el 
+            // campo idDteOriginal, ya que no lo hay pues es FACE. 
+            dteNC.Tipo = TipoDte.NotaCredito;
+            dteNC.MotivoAjuste = "Negociacion de descuento";
+
+            // datos de documento FACE. Debe incluir todos los datos e indicar
+            // que es regimen antiguo.
+            dteNC.DteOriginal = new DteOriginal();
+            dteNC.DteOriginal.EsRegimenAntiguo = true;
+            dteNC.DteOriginal.Id = "2019-1-61-1084644";
+            dteNC.DteOriginal.Serie = "A1";
+            dteNC.DteOriginal.FechaEmision = new DateTime(2019, 9, 30);
+            dteNC.DteOriginal.Numero = 1007749;
+            
+            // ejecutar la creacion de la nota de credito
+            var resp = fegora.Dtes.Crear(dteNC);
+
+            // tests
+            if (resp.TieneError)
+            {
+                ImprimirError(resp.Error);
+            }
+            Assert.IsFalse(resp.TieneError);
+            Assert.IsNotNull(resp.Contenido);
+            Assert.IsNotNull(resp.Contenido.Id);
+
+            // mostrar valores relevantes de impresion
+            ImprimirInformacionRelevanteDocumento(resp.Contenido);
+        }
+
+        [TestMethod]
         public void ObtenerDTE()
         {
             // crear un DTE
