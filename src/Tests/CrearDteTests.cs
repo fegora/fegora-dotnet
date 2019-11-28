@@ -191,6 +191,61 @@ namespace Fegora.Servicios.Tests
         }
 
         [TestMethod]
+        public void CrearDteCheckDuplicidad()
+        {
+            // construir el DTE
+            var dte1 = ConstruirDteSencillo();
+
+            // este campo permite hacer el chequeo de dupllicidad. Utiliza un campo de tu sistema
+            // que sea único por factura, como el número de orden, por ejemplo
+            var numeroDeOrden = new Random().Next(1, 10000000);
+            dte1.NumeroTransaccion = numeroDeOrden;
+
+            // ejecutar la creacion
+            var resp1 = fegora.Dtes.Crear(dte1);
+
+            // tests
+            Console.WriteLine("Resultados de DTE-1");
+            if (resp1.TieneError)
+            {
+                ImprimirError(resp1.Error);
+            }
+            Assert.IsFalse(resp1.TieneError);
+            Assert.IsNotNull(resp1.Contenido);
+            Assert.IsNotNull(resp1.Contenido.Id);
+
+            // mostrar valores relevantes de impresion            
+            ImprimirInformacionRelevanteDocumento(resp1.Contenido);
+
+            // segundo documento, que simula una duplicidad, que debería ser manejada por el api
+            // en vez de crear un nuevo documento, se devuelve el documento original. Esto lo comprobaremos
+            // al comparar el UUID original (dte1) y el nuevo (dte2). Deberían ser iguales, en cuanto hacen referencia
+            // al mismo numeroTransaccion
+
+            var dte2 = ConstruirDteSencillo();
+            dte2.NumeroTransaccion = numeroDeOrden;
+            
+            // ejecutar la creacion
+            var resp2 = fegora.Dtes.Crear(dte1);
+
+            // tests
+            Console.WriteLine("Resultados de DTE-2");
+            if (resp2.TieneError)
+            {
+                ImprimirError(resp2.Error);
+            }
+            Assert.IsFalse(resp2.TieneError);
+            Assert.IsNotNull(resp2.Contenido);
+            Assert.IsNotNull(resp2.Contenido.Id);
+
+            // test principal: debe ser el mismo documento que dte1.
+            Assert.AreEqual(dte1.Id, dte2.Id);
+
+            // mostrar valores relevantes de impresion            
+            ImprimirInformacionRelevanteDocumento(resp1.Contenido);
+        }
+
+        [TestMethod]
         public void CrearNotaCredito()
         {
             // construir el DTE original
