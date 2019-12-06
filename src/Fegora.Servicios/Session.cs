@@ -81,7 +81,7 @@ namespace Fegora.Servicios
             };
 
             // aceptar diferentes procolos de seguridad
-            ServicePointManager.SecurityProtocol = (SecurityProtocolType)3072 | SecurityProtocolType.Tls | SecurityProtocolType.Ssl3;
+            ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
 
             // inicializar cliente
             InicializarHttpClient();
