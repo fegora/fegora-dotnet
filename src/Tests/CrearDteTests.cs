@@ -14,10 +14,15 @@ namespace Fegora.Servicios.Tests
         [TestInitialize]
         public void ConfiguracionTests()
         {
-            fegora = new Api();
+            // si no usas el constructor con valores, son tomados de tu archivo de configuracion
+            //fegora = new Api();
 
             // si desea puede incluir los valores en el constructor
-            //fegora = new Api(clientId, clientSecret, userName, password);
+            var clientId = "";
+            var clientSecret = "";
+            var userName = "";
+            var password = "";
+            fegora = new Api(clientId, clientSecret, userName, password);
         }
 
         [TestMethod]
