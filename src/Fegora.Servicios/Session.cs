@@ -1,15 +1,11 @@
-﻿using Newtonsoft.Json;
+﻿using Fegora.Servicios.Model;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
+using RestSharp;
 using System;
 using System.Collections.Generic;
-using System.Net.Http;
-using Fegora.Servicios.Model;
 using System.Net;
-using System.Configuration;
-using System.Text;
-using Fegora.Servicios.Model.DteTypes;
-using System.IO;
 
 namespace Fegora.Servicios
 {
@@ -44,29 +40,29 @@ namespace Fegora.Servicios
         private void InicializarConfiguracion()
         {
             #region Valores desde config, si existieran y fueran necesarios
-            if (string.IsNullOrEmpty(Host) && ConfigurationManager.AppSettings.HasKeys() && ConfigurationManager.AppSettings[CONFIG_HOST_KEY] != null )
+            if (string.IsNullOrEmpty(Host) && !string.IsNullOrEmpty(Environment.GetEnvironmentVariable(CONFIG_HOST_KEY)))
             {
-                Host = ConfigurationManager.AppSettings.Get(CONFIG_HOST_KEY);
+                Host = Environment.GetEnvironmentVariable(CONFIG_HOST_KEY);
             }
 
-            if (string.IsNullOrEmpty(ClientId) && ConfigurationManager.AppSettings.HasKeys() && ConfigurationManager.AppSettings[CONFIG_CLIENT_ID_KEY] != null)
+            if (string.IsNullOrEmpty(ClientId) && !string.IsNullOrEmpty(Environment.GetEnvironmentVariable(CONFIG_CLIENT_ID_KEY)))
             {
-                ClientId = ConfigurationManager.AppSettings.Get(CONFIG_CLIENT_ID_KEY);
+                ClientId = Environment.GetEnvironmentVariable(CONFIG_CLIENT_ID_KEY);
             }
 
-            if (string.IsNullOrEmpty(ClientSecret) && ConfigurationManager.AppSettings.HasKeys() && ConfigurationManager.AppSettings[CONFIG_CLIENT_SECRET_KEY] != null)
+            if (string.IsNullOrEmpty(ClientSecret) && !string.IsNullOrEmpty(Environment.GetEnvironmentVariable(CONFIG_CLIENT_SECRET_KEY)))
             {
-                ClientSecret = ConfigurationManager.AppSettings.Get(CONFIG_CLIENT_SECRET_KEY);
+                ClientSecret = Environment.GetEnvironmentVariable(CONFIG_CLIENT_SECRET_KEY);
             }
 
-            if (string.IsNullOrEmpty(Username) && ConfigurationManager.AppSettings.HasKeys() && ConfigurationManager.AppSettings[CONFIG_USERNAME_KEY] != null)
+            if (string.IsNullOrEmpty(Username) && !string.IsNullOrEmpty(Environment.GetEnvironmentVariable(CONFIG_USERNAME_KEY)))
             {
-                Username = ConfigurationManager.AppSettings.Get(CONFIG_USERNAME_KEY);
+                Username = Environment.GetEnvironmentVariable(CONFIG_USERNAME_KEY);
             }
 
-            if (string.IsNullOrEmpty(Password) && ConfigurationManager.AppSettings.HasKeys() && ConfigurationManager.AppSettings[CONFIG_PASSWORD_KEY] != null)
+            if (string.IsNullOrEmpty(Password) && !string.IsNullOrEmpty(Environment.GetEnvironmentVariable(CONFIG_PASSWORD_KEY)))
             {
-                Password = ConfigurationManager.AppSettings.Get(CONFIG_PASSWORD_KEY);
+                Password = Environment.GetEnvironmentVariable(CONFIG_PASSWORD_KEY);
             }
 
             if (string.IsNullOrEmpty(Host))
@@ -74,7 +70,7 @@ namespace Fegora.Servicios
                 Host = DEFAULT_HOST;
             }
             #endregion
-
+            
             // posibilidad de hacer las conversiones como camelCase y 
             JsonConvert.DefaultSettings = () => new JsonSerializerSettings()
             {
@@ -85,7 +81,7 @@ namespace Fegora.Servicios
             };
 
             // aceptar diferentes procolos de seguridad
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
+            ServicePointManager.SecurityProtocol = (SecurityProtocolType)3072 | SecurityProtocolType.Tls | SecurityProtocolType.Ssl3;
 
             // inicializar cliente
             InicializarHttpClient();
@@ -93,13 +89,12 @@ namespace Fegora.Servicios
 
         private void InicializarHttpClient()
         {
-            Client = new HttpClient
+            Client = new RestClient
             {
-                BaseAddress = new Uri(Host)
+                BaseUrl = new Uri(Host)
             };
-
-            Client.DefaultRequestHeaders.Clear();
-            Client.DefaultRequestHeaders.Add("Accept", "application/json");
+            
+            Client.AddDefaultHeader("Accept", "application/json");            
         }          
         #endregion
 
@@ -122,38 +117,38 @@ namespace Fegora.Servicios
 
         public string Password { get; set; }
         internal Token Token { get; set ; }
-        internal HttpClient Client { get; set; }
+        internal RestClient Client { get; set; }
         #endregion
 
         #region Metodos de conexion y Ejecucion generales
         internal RespuestaFegora Conectar()
         {
             var respuestaADevolver = new RespuestaFegora();
-            
-            // params
-            var parameters = new Dictionary<string, string>();            
-            parameters.Add("grant_type", "password");
-            parameters.Add("username", Username);
-            parameters.Add("password", Password);
-            parameters.Add("client_id", ClientId);
-
+                        
             // headers
-            var request = new HttpRequestMessage(HttpMethod.Post, "token") { Content = new FormUrlEncodedContent(parameters) };
-            request.Method = HttpMethod.Post;
+            var request = new RestRequest("token", Method.POST);
+            
+            request.AddParameter( "grant_type", "password");
+            request.AddParameter("username", Username);
+            request.AddParameter("password", Password);
+            request.AddParameter("client_id", ClientId);
+
+            request.AddHeader("Accept", "application/json");
+            request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
 
             // response
-            HttpResponseMessage response = null;
+            IRestResponse response = null;
             try
             {
-                response = Client.SendAsync(request).Result;
+                response = Client.Execute(request);
             }
             catch (Exception ex)
             {
                 var x = ex.Message;
             }
 
-            var resultAsString = response.Content.ReadAsStringAsync().Result;
-            if (response.IsSuccessStatusCode)
+            var resultAsString = response.Content;            
+            if (response.StatusCode == HttpStatusCode.OK)
             {                
                 Token = JsonConvert.DeserializeObject<Token>(resultAsString);
                 respuestaADevolver.TieneError = false;

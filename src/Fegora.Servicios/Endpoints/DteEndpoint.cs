@@ -1,12 +1,8 @@
 ﻿using Fegora.Servicios.Model;
 using Fegora.Servicios.Model.DteTypes;
+using Fegora.Utils;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
+using RestSharp;
 
 namespace Fegora.Servicios
 {
@@ -18,15 +14,17 @@ namespace Fegora.Servicios
 
         public RespuestaFegora<Dte> Crear(Dte dte)
         {
-            var aDevolver = new RespuestaFegora<Dte>();
-
             // resource
-            var request = new HttpRequestMessage(HttpMethod.Post, "dte");
+            var request = new RestRequest("dte", Method.POST);
 
-            // params
-            var json = JsonConvert.SerializeObject(dte);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-            request.Content = content;
+            request.RequestFormat = DataFormat.Json;
+            request.JsonSerializer = NewtonsoftJsonSerializer.Default;
+
+            // params            
+            request.AddJsonBody(dte);
+
+            //request.AddHeader("Accept", "application/json");
+            //request.AddHeader("Content-Type", "application/json");
 
             // response
             return Ejecutar<Dte>(request);
@@ -34,10 +32,9 @@ namespace Fegora.Servicios
 
         public RespuestaFegora<Dte> Obtener(string id)
         {
-            var aDevolver = new RespuestaFegora<Dte>();
-
             // resource
-            var request = new HttpRequestMessage(HttpMethod.Get, string.Format("dte/{0}", id));
+            var request = new RestRequest(string.Format("dte/{0}", id), Method.GET);
+            request.AddHeader("Accept", "application/json");
 
             // response
             return Ejecutar<Dte>(request);
@@ -45,8 +42,6 @@ namespace Fegora.Servicios
 
         public RespuestaFegora<Dte> Anular(string id, string motivoAnulacion)
         {
-            var aDevolver = new RespuestaFegora<Dte>();
-
             // construir datos dte para anulacion
             var dte = new Dte();
             dte.Id = id;
@@ -55,12 +50,13 @@ namespace Fegora.Servicios
             dte.DatosAnulacion.MotivoAnulacion = motivoAnulacion;
 
             // resource
-            var request = new HttpRequestMessage(new HttpMethod("PATCH"), "dte");
+            var request = new RestRequest("dte", Method.PATCH);
+            request.AddHeader("Accept", "application/json");
+            request.AddHeader("Content-Type", "application/json");
 
             // params
             var json = JsonConvert.SerializeObject(dte);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-            request.Content = content;
+            request.AddJsonBody(json);            
 
             // response
             return Ejecutar<Dte>(request);
