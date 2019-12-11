@@ -191,6 +191,50 @@ namespace Fegora.Servicios.Tests
         }
 
         [TestMethod]
+        public void CrearDteFacturaEspecial()
+        {
+            // construir el DTE
+            var dte = new Dte();
+            dte.Tipo = TipoDte.FacturaEspecial;
+
+            dte.Receptor = new Receptor()
+            {
+                Id = "1868421630101",
+                Nombre = "Jose Perez",
+                Direccion = new DireccionEntidad()
+                {
+                    Direccion = "2a CALLE 3-51 ZONA 9 GUATEMALA",
+                    Departamento = "Guatemala",
+                    Municipio = "Guatemala",
+                    Pais = Pais.GT,
+                    CodigoPostal = "01009"
+                }
+            };
+
+            dte.Items = new List<Item>();
+            dte.Items.Add(new Item()
+            {
+                Descripcion = "Servicios varios",
+                PrecioUnitario = 100
+            });
+
+            // ejecutar la creacion
+            var resp = fegora.Dtes.Crear(dte);
+
+            // tests
+            if (resp.TieneError)
+            {
+                ImprimirError(resp.Error);
+            }
+            Assert.IsFalse(resp.TieneError);
+            Assert.IsNotNull(resp.Contenido);
+            Assert.IsNotNull(resp.Contenido.Id);
+
+            // mostrar valores relevantes de impresion
+            ImprimirInformacionRelevanteDocumento(resp.Contenido);
+        }
+
+        [TestMethod]
         public void CrearDteCheckDuplicidad()
         {
             // construir el DTE
