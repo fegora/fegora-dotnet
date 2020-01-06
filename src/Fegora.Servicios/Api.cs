@@ -18,5 +18,7 @@
         public DteEndpoint Dtes { get; set; }
 
         public ContribuyenteEndpoint Contribuyentes { get; set; }
+
+        public LoteEndpoint Lotes { get; set; }
     }
 }
