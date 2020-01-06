@@ -69,7 +69,7 @@ namespace Fegora.Servicios.Tests
             Assert.IsNotNull(resp.Contenido);
             Assert.IsNotNull(resp.Contenido.Id);
 
-            var resp2 = fegora.Lotes.Obtener(lote.Id);
+            var resp2 = fegora.Lotes.Obtener(resp.Contenido.Id);
             
             // tests
             if (resp2.TieneError)
@@ -108,9 +108,9 @@ namespace Fegora.Servicios.Tests
 
             // actualizar
             var loteAACtualizar = new Lote();
-            loteAACtualizar.Id = lote.Id;
+            loteAACtualizar.Id = resp.Contenido.Id;
             loteAACtualizar.CantidadOperacionesPendientesEjecucion = 0;
-            loteAACtualizar.CantidadOperacionesEjecutadas = lote.CantidadOperaciones;
+            loteAACtualizar.CantidadOperacionesEjecutadas = resp.Contenido.CantidadOperaciones;
             loteAACtualizar.Estado = "procesado";
 
             var resp2 = fegora.Lotes.ActualizarParcial(loteAACtualizar);
@@ -127,7 +127,7 @@ namespace Fegora.Servicios.Tests
             Assert.AreEqual(loteAACtualizar.CantidadOperacionesEjecutadas, resp2.Contenido.CantidadOperacionesEjecutadas);
 
             // mostrar valores relevantes de impresion
-            ImprimirInformacionRelevanteDocumento(resp.Contenido);
+            ImprimirInformacionRelevanteDocumento(resp2.Contenido);
         }
 
         private void ImprimirInformacionRelevanteDocumento(Lote lote)

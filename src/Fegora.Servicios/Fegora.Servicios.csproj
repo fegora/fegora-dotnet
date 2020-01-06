@@ -3,13 +3,13 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <PackageId>Fegora.Servicios.Api</PackageId>
-    <Version>1.2.0.0</Version>
+    <Version>1.2.1.0</Version>
     <Authors>Fegora Api Client</Authors>
     <Company>Fegora</Company>
     <Product>Fegora</Product>
     <Description>Conector o librería para utilizar Fegora API desde .net</Description>
     <Copyright>Copyright 2019</Copyright>
-    <PackageReleaseNotes>Soporte para campo dte.numeroTransaccion para chequeo de duplicidad.</PackageReleaseNotes>
+    <PackageReleaseNotes>Soporte para manejo de lotes</PackageReleaseNotes>
     <PackageTags>Fegora Factura Electrónica Guatemala</PackageTags>
     <PackageProjectUrl>https://github.com/fegora/fegora-dotnet</PackageProjectUrl>
     <RepositoryUrl>https://github.com/fegora/fegora-dotnet</RepositoryUrl>

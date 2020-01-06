@@ -11,6 +11,7 @@
             Session = new Session(clientId, clientSecret, userName, password);
             Dtes = new DteEndpoint(Session);
             Contribuyentes = new ContribuyenteEndpoint(Session);
+            Lotes = new LoteEndpoint(Session);
         }
 
         public Session Session {get; set;}
