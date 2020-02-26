@@ -3,6 +3,7 @@ using Fegora.Servicios.Model.DteTypes;
 using Fegora.Utils;
 using Newtonsoft.Json;
 using RestSharp;
+using System;
 
 namespace Fegora.Servicios
 {
@@ -49,14 +50,13 @@ namespace Fegora.Servicios
             dte.DatosAnulacion = new DatosAnulacion();
             dte.DatosAnulacion.MotivoAnulacion = motivoAnulacion;
 
-            // resource
+            //// resource
             var request = new RestRequest("dte", Method.PATCH);
             request.AddHeader("Accept", "application/json");
-            request.AddHeader("Content-Type", "application/json");
 
-            // params
+            //// params
             var json = JsonConvert.SerializeObject(dte);
-            request.AddJsonBody(json);            
+            request.AddJsonBody(dte);                  
 
             // response
             return Ejecutar<Dte>(request);
