@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Fegora.Servicios.Api</id>
-    <version>1.0.4.1</version>
+    <version>1.0.4.2</version>
     <title>Fegora Api Client</title>
     <authors>Fegora</authors>
     <owners>Fegora</owners>
@@ -11,8 +11,8 @@
     <iconUrl>https://en.gravatar.com/userimage/154990875/2c581bed5b1007eeb3f6061eb186a8e4.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Conector o librería para utilizar Fegora API desde .net</description>
-    <releaseNotes>Ligero mejoramiento de protocols de service endpoint</releaseNotes>
-    <copyright>Copyright 2019</copyright>
+    <releaseNotes>Fixes en endpoint de anulacion</releaseNotes>
+    <copyright>Copyright 2020</copyright>
     <tags>Fegora Factura Electrónica Guatemala</tags>
     <dependencies>
       <dependency id="Newtonsoft.Json" version="12.0.2" />
