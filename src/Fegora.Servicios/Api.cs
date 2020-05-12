@@ -12,6 +12,7 @@
             Dtes = new DteEndpoint(Session);
             Contribuyentes = new ContribuyenteEndpoint(Session);
             Lotes = new LoteEndpoint(Session);
+            Cuentas = new CuentaEndpoint(Session);
         }
 
         public Session Session {get; set;}
@@ -21,5 +22,7 @@
         public ContribuyenteEndpoint Contribuyentes { get; set; }
 
         public LoteEndpoint Lotes { get; set; }
+
+        public CuentaEndpoint Cuentas { get; set; }
     }
 }

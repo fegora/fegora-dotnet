@@ -3,19 +3,19 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <PackageId>Fegora.Servicios.Api</PackageId>
-    <Version>1.2.1.0</Version>
+    <Version>1.2.2.0</Version>
     <Authors>Fegora Api Client</Authors>
     <Company>Fegora</Company>
     <Product>Fegora</Product>
     <Description>Conector o librería para utilizar Fegora API desde .net</Description>
     <Copyright>Copyright 2019</Copyright>
-    <PackageReleaseNotes>Soporte para manejo de lotes</PackageReleaseNotes>
+    <PackageReleaseNotes>Soporte para manejo de cuentas</PackageReleaseNotes>
     <PackageTags>Fegora Factura Electrónica Guatemala</PackageTags>
     <PackageProjectUrl>https://github.com/fegora/fegora-dotnet</PackageProjectUrl>
     <RepositoryUrl>https://github.com/fegora/fegora-dotnet</RepositoryUrl>
     <PackageIconUrl>https://en.gravatar.com/userimage/154990875/2c581bed5b1007eeb3f6061eb186a8e4.png</PackageIconUrl>
-    <AssemblyVersion>1.2.1.0</AssemblyVersion>
-    <FileVersion>1.2.1.0</FileVersion>
+    <AssemblyVersion>1.2.2.0</AssemblyVersion>
+    <FileVersion>1.2.2.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
