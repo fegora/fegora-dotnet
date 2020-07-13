@@ -242,7 +242,8 @@ namespace Fegora.Servicios.Tests
 
             // este campo permite hacer el chequeo de dupllicidad. Utiliza un campo de tu sistema
             // que sea único por factura, como el número de orden, por ejemplo
-            var numeroDeOrden = new Random().Next(1, 10000000);
+            var numeroDeOrden = new Random().Next(1, 10000000).ToString();
+            numeroDeOrden = string.Format("{0}-{1}", "AF", numeroDeOrden);
             dte1.NumeroTransaccion = numeroDeOrden;
 
             // ejecutar la creacion
@@ -278,15 +279,10 @@ namespace Fegora.Servicios.Tests
             {
                 ImprimirError(resp2.Error);
             }
-            Assert.IsFalse(resp2.TieneError);
-            Assert.IsNotNull(resp2.Contenido);
-            Assert.IsNotNull(resp2.Contenido.Id);
+            Assert.IsTrue(resp2.TieneError);
 
-            // test principal: debe ser el mismo documento que dte1.
-            Assert.AreEqual(dte1.Id, dte2.Id);
-
-            // mostrar valores relevantes de impresion            
-            ImprimirInformacionRelevanteDocumento(resp1.Contenido);
+            // mostrar error de ducplicidad
+            ImprimirError(resp2.Error);
         }
 
         [TestMethod]
