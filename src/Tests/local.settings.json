@@ -2,7 +2,7 @@
   "IsEncrypted": false,
   "Values": {
     "Fegora.Servicios.ClientId": "apiApp",
-    "Fegora.Servicios.Username": "daelmo",
+    "Fegora.Servicios.Username": "",
     "Fegora.Servicios.Password": ""
   }
 }

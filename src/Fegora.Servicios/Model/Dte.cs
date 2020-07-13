@@ -58,7 +58,7 @@ namespace Fegora.Servicios.Model
         
         public Nullable<System.Int32> NumeroAcceso { get; set; }
 
-        public Nullable<System.Int64> NumeroTransaccion { get; set; }
+        public System.String NumeroTransaccion { get; set; }
 
         public System.String Observaciones { get; set; }
         
