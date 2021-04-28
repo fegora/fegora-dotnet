@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Fegora.Servicios.Model;
+﻿using Fegora.Servicios.Model;
 
 namespace Fegora.Servicios
 {

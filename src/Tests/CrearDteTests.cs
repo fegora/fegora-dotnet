@@ -14,10 +14,15 @@ namespace Fegora.Servicios.Tests
         [TestInitialize]
         public void ConfiguracionTests()
         {
-            fegora = new Api();
+            // si no usas el constructor con valores, son tomados de tu archivo de configuracion
+            //fegora = new Api();
 
             // si desea puede incluir los valores en el constructor
-            //fegora = new Api(clientId, clientSecret, userName, password);
+            var clientId = "";
+            var clientSecret = "";
+            var userName = "";
+            var password = "";
+            fegora = new Api(clientId, clientSecret, userName, password);
         }
 
         [TestMethod]
@@ -43,7 +48,7 @@ namespace Fegora.Servicios.Tests
             dte.Items.Add(new Item()
             {
                 Descripcion = "Bocina BX-456",
-                PrecioUnitario = 1500
+                PrecioUnitario = 1
             });
 
             // ejecutar la creacion
@@ -60,6 +65,91 @@ namespace Fegora.Servicios.Tests
 
             // mostrar valores relevantes de impresion
             ImprimirInformacionRelevanteDocumento(resp.Contenido);            
+        }
+
+        [TestMethod]
+        public void CredencialesInvalidas()
+        {
+            // construir el DTE
+            var dte = new Dte();
+            dte.Receptor = new Receptor()
+            {
+                Id = "CF",
+                Nombre = "Distribuidora XYZ",
+                Direccion = new DireccionEntidad()
+                {
+                    Direccion = "2a CALLE 3-51 ZONA 9 GUATEMALA",
+                    Departamento = "Guatemala",
+                    Municipio = "Guatemala",
+                    Pais = Pais.GT,
+                    CodigoPostal = "01009"
+                }
+            };
+
+            dte.Items = new List<Item>();
+            dte.Items.Add(new Item()
+            {
+                Descripcion = "Bocina BX-456",
+                PrecioUnitario = 1
+            });
+
+            // ejecutar la creacion
+            fegora = new Api("apiApp", "", "43430775", "BadPass");
+            var resp = fegora.Dtes.Crear(dte);
+
+            // tests
+            if (resp.TieneError)
+            {
+                ImprimirError(resp.Error);
+            }
+            Assert.IsFalse(resp.TieneError);
+            Assert.IsNotNull(resp.Contenido);
+            Assert.IsNotNull(resp.Contenido.Id);
+
+            // mostrar valores relevantes de impresion
+            ImprimirInformacionRelevanteDocumento(resp.Contenido);
+        }
+
+        [TestMethod]
+        public void InformacionDteInvalida()
+        {
+            // construir el DTE
+            var dte = new Dte();
+            dte.Receptor = new Receptor()
+            {
+                Id = "111111",
+                Nombre = "Distribuidora XYZ",
+                Direccion = new DireccionEntidad()
+                {
+                    Direccion = "2a CALLE 3-51 ZONA 9 GUATEMALA",
+                    Departamento = "Guatemala",
+                    Municipio = "Guatemala",
+                    Pais = Pais.GT,
+                    CodigoPostal = "01009"
+                }
+            };
+
+            dte.Items = new List<Item>();
+            dte.Items.Add(new Item()
+            {
+                Descripcion = "Bocina BX-456",
+                PrecioUnitario = 1
+            });
+
+            // ejecutar la creacion
+            var resp = fegora.Dtes.Crear(dte);
+
+            // tests
+            if (resp.TieneError)
+            {
+                ImprimirError(resp.Error);
+            }
+            Assert.IsFalse(resp.TieneError);
+            Assert.IsNotNull(resp.Contenido);
+            Assert.IsNotNull(resp.Contenido.Id);
+
+            // mostrar valores relevantes de impresion
+            ImprimirInformacionRelevanteDocumento(resp.Contenido);
         }
 
         [TestMethod]
@@ -106,6 +196,57 @@ namespace Fegora.Servicios.Tests
         }
 
         [TestMethod]
+        public void CrearDteCheckDuplicidad()
+        {
+            // construir el DTE
+            var dte1 = ConstruirDteSencillo();
+
+            // este campo permite hacer el chequeo de dupllicidad. Utiliza un campo de tu sistema
+            // que sea único por factura, como el número de orden, por ejemplo
+            var numeroDeOrden = new Random().Next(1, 10000000).ToString();
+            numeroDeOrden = string.Format("{0}-{1}", "AF", numeroDeOrden);
+            dte1.NumeroTransaccion = numeroDeOrden;
+
+            // ejecutar la creacion
+            var resp1 = fegora.Dtes.Crear(dte1);
+
+            // tests
+            Console.WriteLine("Resultados de DTE-1");
+            if (resp1.TieneError)
+            {
+                ImprimirError(resp1.Error);
+            }
+            Assert.IsFalse(resp1.TieneError);
+            Assert.IsNotNull(resp1.Contenido);
+            Assert.IsNotNull(resp1.Contenido.Id);
+
+            // mostrar valores relevantes de impresion            
+            ImprimirInformacionRelevanteDocumento(resp1.Contenido);
+
+            // segundo documento, que simula una duplicidad, que debería ser manejada por el api
+            // en vez de crear un nuevo documento, se devuelve el documento original. Esto lo comprobaremos
+            // al comparar el UUID original (dte1) y el nuevo (dte2). Deberían ser iguales, en cuanto hacen referencia
+            // al mismo numeroTransaccion
+
+            var dte2 = ConstruirDteSencillo();
+            dte2.NumeroTransaccion = numeroDeOrden;
+            
+            // ejecutar la creacion
+            var resp2 = fegora.Dtes.Crear(dte1);
+
+            // tests
+            Console.WriteLine("Resultados de DTE-2");
+            if (resp2.TieneError)
+            {
+                ImprimirError(resp2.Error);
+            }
+            Assert.IsTrue(resp2.TieneError);
+
+            // mostrar el error
+            ImprimirError(resp2.Error);
+        }
+
+        [TestMethod]
         public void CrearNotaCredito()
         {
             // construir el DTE original
@@ -148,6 +289,63 @@ namespace Fegora.Servicios.Tests
             {
                 ImprimirError(resp.Error);
             }            
+            Assert.IsFalse(resp.TieneError);
+            Assert.IsNotNull(resp.Contenido);
+            Assert.IsNotNull(resp.Contenido.Id);
+
+            // mostrar valores relevantes de impresion
+            ImprimirInformacionRelevanteDocumento(resp.Contenido);
+        }
+
+        [TestMethod]
+        public void CrearNotaCreditoFace()
+        {            
+            // construir la nota de credito
+            var dteNC = new Dte();
+            dteNC.Receptor = new Receptor()
+            {
+                Id = "CF",
+                Nombre = "Consumidor Final",
+                Direccion = new DireccionEntidad()
+                {
+                    Direccion = "2a CALLE 3-51 ZONA 9 GUATEMALA",
+                    Departamento = "Guatemala",
+                    Municipio = "Guatemala",
+                    Pais = Pais.GT,
+                    CodigoPostal = "01009"
+                }
+            };
+
+            dteNC.Items = new List<Item>();
+            dteNC.Items.Add(new Item()
+            {
+                Descripcion = "Negociacion de Descuento",
+                PrecioUnitario = 5,
+                Tipo = TipoItem.Servicio
+            });
+
+            // datos generales de la nota de credito. No se debe incluir el 
+            // campo idDteOriginal, ya que no lo hay pues es FACE. 
+            dteNC.Tipo = TipoDte.NotaCredito;
+            dteNC.MotivoAjuste = "Negociacion de descuento";
+
+            // datos de documento FACE. Debe incluir todos los datos e indicar
+            // que es regimen antiguo.
+            dteNC.DteOriginal = new DteOriginal();
+            dteNC.DteOriginal.EsRegimenAntiguo = true;
+            dteNC.DteOriginal.Id = "2019-1-61-1084644";
+            dteNC.DteOriginal.Serie = "A1";
+            dteNC.DteOriginal.FechaEmision = new DateTime(2019, 9, 30);
+            dteNC.DteOriginal.Numero = 1007749;
+            
+            // ejecutar la creacion de la nota de credito
+            var resp = fegora.Dtes.Crear(dteNC);
+
+            // tests
+            if (resp.TieneError)
+            {
+                ImprimirError(resp.Error);
+            }
             Assert.IsFalse(resp.TieneError);
             Assert.IsNotNull(resp.Contenido);
             Assert.IsNotNull(resp.Contenido.Id);
@@ -239,6 +437,7 @@ namespace Fegora.Servicios.Tests
             Console.WriteLine("ID: {0}", dte.Id);
             Console.WriteLine("Serie: {0}", dte.Serie);
             Console.WriteLine("Numero: {0}", dte.Numero);
+            Console.WriteLine("Numero TX: {0}", dte.NumeroTransaccion);
             Console.WriteLine("Archivo XML URI: {0}", dte.ArchivoXmlUri);
             Console.WriteLine();
             Console.WriteLine("Datos adicionales");

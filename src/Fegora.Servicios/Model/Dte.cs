@@ -57,7 +57,9 @@ namespace Fegora.Servicios.Model
         public System.Int64 Numero { get; set; }
         
         public Nullable<System.Int32> NumeroAcceso { get; set; }
-        
+
+        public System.String NumeroTransaccion { get; set; }
+
         public System.String Observaciones { get; set; }
         
         public DteTypes.Receptor Receptor { get; set; }
@@ -180,6 +182,8 @@ namespace Fegora.Servicios.Model
             public TipoDte Tipo { get; set; }
             
             public System.Decimal Total { get; set; }
+
+            public System.Boolean EsRegimenAntiguo { get; set; }
         }
 
         [Serializable]        

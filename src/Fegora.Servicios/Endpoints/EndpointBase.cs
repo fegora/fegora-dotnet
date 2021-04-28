@@ -1,12 +1,7 @@
 ﻿using Fegora.Servicios.Model;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using RestSharp;
 using System.Net;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Fegora.Servicios
 {
@@ -18,12 +13,12 @@ namespace Fegora.Servicios
             _session = session;
         }
 
-        protected virtual RespuestaFegora<T> Ejecutar<T>(HttpRequestMessage request) where T : new()
+        protected virtual RespuestaFegora<T> Ejecutar<T>(IRestRequest request) where T : new()
         {
             return Ejecutar<T>(request, true);
         }
 
-        protected virtual RespuestaFegora<T> Ejecutar<T>(HttpRequestMessage request, bool forzarReconexion) where T : new()
+        protected virtual RespuestaFegora<T> Ejecutar<T>(IRestRequest request, bool forzarReconexion) where T : new()
         {
             var respFegora = new RespuestaFegora<T>();
 
@@ -40,14 +35,14 @@ namespace Fegora.Servicios
                     return respFegora;
                 }
             }
-            request.Headers.Add("Authorization", "Bearer " + _session.Token.access_token);
+            request.AddHeader("Authorization", "Bearer " + _session.Token.access_token);
             #endregion
 
-            var response = _session.Client.SendAsync(request).Result;
-            var resultAsString = response.Content.ReadAsStringAsync().Result;
+            var response = _session.Client.Execute(request);
+            var resultAsString = response.Content;
 
             // respuesta correcta
-            if (response.IsSuccessStatusCode)
+            if (response.StatusCode == HttpStatusCode.OK)
             {
                 respFegora.TieneError = false;
                 respFegora.Contenido = JsonConvert.DeserializeObject<T>(resultAsString);

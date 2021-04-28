@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Fegora.Servicios
+﻿namespace Fegora.Servicios
 {
     public class Api
     {
@@ -16,10 +10,19 @@ namespace Fegora.Servicios
         {
             Session = new Session(clientId, clientSecret, userName, password);
             Dtes = new DteEndpoint(Session);
+            Contribuyentes = new ContribuyenteEndpoint(Session);
+            Lotes = new LoteEndpoint(Session);
+            Cuentas = new CuentaEndpoint(Session);
         }
 
         public Session Session {get; set;}
         
         public DteEndpoint Dtes { get; set; }
+
+        public ContribuyenteEndpoint Contribuyentes { get; set; }
+
+        public LoteEndpoint Lotes { get; set; }
+
+        public CuentaEndpoint Cuentas { get; set; }
     }
 }

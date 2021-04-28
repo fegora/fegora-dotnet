@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageId>Fegora.Servicios.Api</PackageId>
+    <Version>1.2.3.0</Version>
+    <Authors>Fegora Api Client</Authors>
+    <Company>Fegora</Company>
+    <Product>Fegora</Product>
+    <Description>Conector o librería para utilizar Fegora API desde .net</Description>
+    <Copyright>Copyright 2019</Copyright>
+    <PackageReleaseNotes>Agregar endpoint para obtener DTEs por filtro, incluyendo numeroTransaccion</PackageReleaseNotes>
+    <PackageTags>Fegora Factura Electrónica Guatemala</PackageTags>
+    <PackageProjectUrl>https://github.com/fegora/fegora-dotnet</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/fegora/fegora-dotnet</RepositoryUrl>
+    <PackageIconUrl>https://en.gravatar.com/userimage/154990875/2c581bed5b1007eeb3f6061eb186a8e4.png</PackageIconUrl>
+    <AssemblyVersion>1.2.3.0</AssemblyVersion>
+    <FileVersion>1.2.3.0</FileVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="RestSharp" Version="106.6.10" />
+  </ItemGroup>
+
+</Project>
