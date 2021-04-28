@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Fegora.Servicios.Api</id>
-    <version>1.2.0.0</version>
+    <version>1.2.3.0</version>
     <title>Fegora Api Client</title>
     <authors>Fegora</authors>
     <owners>Fegora</owners>
@@ -11,7 +11,7 @@
     <iconUrl>https://en.gravatar.com/userimage/154990875/2c581bed5b1007eeb3f6061eb186a8e4.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Conector o librería para utilizar Fegora API desde .net</description>
-    <releaseNotes>Soporte para campo dte.numeroTransaccion para chequeo de duplicidad.</releaseNotes>
+    <releaseNotes>Agregar endpoint para obtener DTEs por filtro, incluyendo numeroTransaccion</releaseNotes>
     <copyright>Copyright 2019</copyright>
     <tags>Fegora Factura Electrónica Guatemala</tags>
     <dependencies>

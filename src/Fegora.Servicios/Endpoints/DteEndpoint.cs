@@ -3,6 +3,7 @@ using Fegora.Servicios.Model.DteTypes;
 using Fegora.Utils;
 using Newtonsoft.Json;
 using RestSharp;
+using System;
 
 namespace Fegora.Servicios
 {
@@ -38,6 +39,81 @@ namespace Fegora.Servicios
 
             // response
             return Ejecutar<Dte>(request);
+        }
+
+        public RespuestaFegora<ListadoPaginado<Dte>> Obtener(string idCuenta = null, TipoDte? tipo = null, string idReceptor = null,
+            bool? enAmbienteDePruebas = null, DateTime? desde = null, DateTime? hasta = null, bool? anulados = null,
+            byte? numeroPagina = null, byte? tamanioPagina = null, string numeroTransaccion = null)
+        {
+            // resource
+            var request = new RestRequest("dte/", Method.GET);
+            request.AddHeader("Accept", "application/json");
+
+            #region filtros
+
+            // idCuenta
+            if (!string.IsNullOrEmpty(idCuenta))
+            {
+                request.AddQueryParameter("idCuenta", idCuenta);
+            }
+
+            // tipo
+            if (tipo.HasValue)
+            {
+                request.AddQueryParameter("tipo", tipo.Value.ToString());
+            }
+
+            // idReceptor
+            if (!string.IsNullOrEmpty(idReceptor))
+            {
+                request.AddQueryParameter("idReceptor", idReceptor);
+            }
+
+            // tipo
+            if (enAmbienteDePruebas.HasValue)
+            {
+                request.AddQueryParameter("enAmbienteDePruebas", enAmbienteDePruebas.Value.ToString());
+            }
+
+            // desde
+            if (desde.HasValue)
+            {
+                request.AddQueryParameter("desde", desde.Value.ToString("yyyy-MM-HHTmm:ss"));
+            }
+
+            // hasta
+            if (hasta.HasValue)
+            {
+                request.AddQueryParameter("hasta", hasta.Value.ToString("yyyy-MM-HHTmm:ss"));
+            }
+
+            // anulados
+            if (anulados.HasValue)
+            {
+                request.AddQueryParameter("anulados", anulados.Value.ToString());
+            }
+
+            // numeroPagina
+            if (numeroPagina.HasValue)
+            {
+                request.AddQueryParameter("numPag", numeroPagina.Value.ToString());
+            }
+
+            // numeroPagina
+            if (tamanioPagina.HasValue)
+            {
+                request.AddQueryParameter("tamPag", tamanioPagina.Value.ToString());
+            }
+
+            // numeroTransaccion
+            if (!string.IsNullOrEmpty(numeroTransaccion))
+            {
+                request.AddQueryParameter("numeroTransaccion", numeroTransaccion);
+            }
+            #endregion
+
+            // response
+            return Ejecutar<ListadoPaginado<Dte>>(request);
         }
 
         public RespuestaFegora<Dte> Anular(string id, string motivoAnulacion)
