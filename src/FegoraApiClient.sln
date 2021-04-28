@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.421
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30717.126
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fegora.Servicios", "ApiClient\Fegora.Servicios.csproj", "{C310EE2D-B528-4FD1-91AF-93321AD912D5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fegora.Servicios.Tests", "Tests\Fegora.Servicios.Tests.csproj", "{792F4E91-11A0-4DE8-B191-D1638427FC45}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fegora.Servicios.Tests", "Tests\Fegora.Servicios.Tests.csproj", "{DEBAD788-E57D-4C71-8C87-4EE2135C3F08}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{C310EE2D-B528-4FD1-91AF-93321AD912D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C310EE2D-B528-4FD1-91AF-93321AD912D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C310EE2D-B528-4FD1-91AF-93321AD912D5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{792F4E91-11A0-4DE8-B191-D1638427FC45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{792F4E91-11A0-4DE8-B191-D1638427FC45}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{792F4E91-11A0-4DE8-B191-D1638427FC45}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{792F4E91-11A0-4DE8-B191-D1638427FC45}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DEBAD788-E57D-4C71-8C87-4EE2135C3F08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DEBAD788-E57D-4C71-8C87-4EE2135C3F08}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DEBAD788-E57D-4C71-8C87-4EE2135C3F08}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DEBAD788-E57D-4C71-8C87-4EE2135C3F08}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

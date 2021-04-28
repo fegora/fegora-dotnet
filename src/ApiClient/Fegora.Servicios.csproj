@@ -55,6 +55,7 @@
     <Compile Include="Api.cs" />
     <Compile Include="Model\Contribuyente.cs" />
     <Compile Include="Model\Enums.cs" />
+    <Compile Include="Model\ListadoPaginado.cs" />
     <Compile Include="NewtonsoftJsonSerializer.cs" />
     <Compile Include="Session.cs" />
     <Compile Include="Model\Dte.cs" />
